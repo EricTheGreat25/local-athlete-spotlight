@@ -1,0 +1,135 @@
+import Navbar from "@/components/layout/Navbar";
+import HeroSection from "@/components/home/HeroSection";
+import FeaturesSection from "@/components/home/FeaturesSection";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Star, Quote } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const Home = () => {
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      role: "Basketball Player",
+      content: "Athletix helped me get discovered by college scouts. The platform made it easy to showcase my skills and connect with opportunities.",
+      rating: 5,
+    },
+    {
+      name: "Coach Mike Davis",
+      role: "Scout - Division I",
+      content: "The search and filter capabilities are incredible. I can find exactly the type of athlete I'm looking for in minutes.",
+      rating: 5,
+    },
+    {
+      name: "Tom Rodriguez",
+      role: "Event Organizer",
+      content: "Managing tryouts and showcases has never been easier. The platform streamlines everything from registration to performance tracking.",
+      rating: 5,
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <HeroSection />
+      <FeaturesSection />
+      
+      {/* Testimonials Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Trusted by Athletes & Scouts
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              See what our community has to say about Athletix
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="relative">
+                <Quote className="absolute top-4 right-4 h-8 w-8 text-muted-foreground/20" />
+                <CardHeader>
+                  <div className="flex items-center gap-1 mb-2">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <CardTitle className="text-lg">{testimonial.name}</CardTitle>
+                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm italic">{testimonial.content}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* CTA Section */}
+      <section className="py-20 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Ready to Take Your Athletic Career to the Next Level?
+          </h2>
+          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+            Join thousands of athletes and scouts already using Athletix to connect and succeed
+          </p>
+          <Link to="/register">
+            <Button size="lg" variant="secondary" className="group">
+              Get Started Today
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
+        </div>
+      </section>
+      
+      {/* Footer */}
+      <footer className="py-12 border-t">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="font-semibold mb-4">Platform</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><Link to="/about" className="hover:text-foreground">About</Link></li>
+                <li><Link to="/features" className="hover:text-foreground">Features</Link></li>
+                <li><Link to="/pricing" className="hover:text-foreground">Pricing</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Community</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><Link to="/athletes" className="hover:text-foreground">Athletes</Link></li>
+                <li><Link to="/scouts" className="hover:text-foreground">Scouts</Link></li>
+                <li><Link to="/events" className="hover:text-foreground">Events</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Support</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><Link to="/help" className="hover:text-foreground">Help Center</Link></li>
+                <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
+                <li><Link to="/faq" className="hover:text-foreground">FAQ</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Legal</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><Link to="/privacy" className="hover:text-foreground">Privacy</Link></li>
+                <li><Link to="/terms" className="hover:text-foreground">Terms</Link></li>
+                <li><Link to="/cookies" className="hover:text-foreground">Cookies</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
+            © 2024 Athletix. All rights reserved.
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Home;
