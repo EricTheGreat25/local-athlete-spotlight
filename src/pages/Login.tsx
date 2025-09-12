@@ -7,8 +7,7 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <Link to="/" className="inline-flex items-center space-x-2 mb-4">
-            <Trophy className="h-10 w-10" />
+          <Link to="/" className="inline-flex items-center mb-4">
             <span className="text-3xl font-bold">ATHLETIX</span>
           </Link>
           <p className="text-muted-foreground">
