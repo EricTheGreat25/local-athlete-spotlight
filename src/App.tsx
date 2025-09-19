@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Athletes from "./pages/Athletes";
 import Search from "./pages/Search";
 import Events from "./pages/Events";
+import EventDetails from "./pages/EventDetails";
 import News from "./pages/News";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/athletes" element={<Athletes />} />
           <Route path="/search" element={<Search />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<EventDetails />} />
           <Route path="/news" element={<News />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
