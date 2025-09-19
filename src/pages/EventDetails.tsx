@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import {
   Award
 } from "lucide-react";
 import { format } from "date-fns";
+import EventRegistrationForm from "@/components/events/EventRegistrationForm";
 
 // Mock event data - in production, this would come from an API
 const mockEventData = {
@@ -69,6 +71,7 @@ const mockEventData = {
 export default function EventDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
   
   // In production, fetch event data based on id
   const event = mockEventData;
@@ -336,7 +339,11 @@ export default function EventDetails() {
                 
                 <Separator />
                 
-                <Button className="w-full" size="lg">
+                <Button 
+                  className="w-full" 
+                  size="lg"
+                  onClick={() => setShowRegistrationForm(true)}
+                >
                   Register Now
                 </Button>
                 
@@ -388,6 +395,19 @@ export default function EventDetails() {
           </div>
         </div>
       </div>
+
+      {/* Registration Form Dialog */}
+      <EventRegistrationForm
+        open={showRegistrationForm}
+        onClose={() => setShowRegistrationForm(false)}
+        event={{
+          title: event.title,
+          entryFee: event.entryFee,
+          categories: event.categories,
+          date: event.date,
+          location: event.location,
+        }}
+      />
     </div>
   );
 }
