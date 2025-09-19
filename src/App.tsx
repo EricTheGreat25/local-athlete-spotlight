@@ -10,6 +10,7 @@ import Events from "./pages/Events";
 import News from "./pages/News";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
 import AthleteProfile from "./pages/AthleteProfile";
 import UserProfile from "./pages/UserProfile";
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/news" element={<News />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/athletes/:id" element={<AthleteProfile />} />
           <Route path="/users/:id" element={<UserProfile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
