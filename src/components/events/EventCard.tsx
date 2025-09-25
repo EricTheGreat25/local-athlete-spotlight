@@ -79,18 +79,11 @@ const EventCard = ({
           </div>
         </div>
         
-        <div className="flex gap-2">
-          <Link to={`/events/${id}`} className="flex-1">
-            <Button variant="secondary" className="w-full">
-              View Details
-            </Button>
-          </Link>
-          {status === "upcoming" && participants < maxParticipants && (
-            <Button className="flex-1">
-              Register
-            </Button>
-          )}
-        </div>
+        <Link to={`/events/${id}`} className="w-full">
+          <Button variant="secondary" className="w-full">
+            View Details
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );

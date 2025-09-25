@@ -24,7 +24,7 @@ import {
   Award
 } from "lucide-react";
 import { format } from "date-fns";
-import EventRegistrationForm from "@/components/events/EventRegistrationForm";
+
 
 // Mock event data - in production, this would come from an API
 const mockEventData = {
@@ -71,7 +71,7 @@ const mockEventData = {
 export default function EventDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  
   
   // In production, fetch event data based on id
   const event = mockEventData;
@@ -167,10 +167,8 @@ export default function EventDetails() {
           {/* Left Column - Main Information */}
           <div className="lg:col-span-2 space-y-6">
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="schedule">Schedule</TabsTrigger>
-                <TabsTrigger value="participants">Participants</TabsTrigger>
                 <TabsTrigger value="rules">Rules & Info</TabsTrigger>
               </TabsList>
               
@@ -238,58 +236,6 @@ export default function EventDetails() {
                 </Card>
               </TabsContent>
               
-              <TabsContent value="schedule" className="space-y-4">
-                {event.schedule.map((day, index) => (
-                  <Card key={index}>
-                    <CardHeader>
-                      <CardTitle className="text-lg">{day.day} - {day.date}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2">
-                        {day.events.map((evt, idx) => (
-                          <div key={idx} className="flex items-center gap-2">
-                            <Timer className="h-4 w-4 text-muted-foreground" />
-                            <span>{evt}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </TabsContent>
-              
-              <TabsContent value="participants">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Registered Athletes</CardTitle>
-                    <CardDescription>
-                      {event.registeredAthletes.length} athletes registered
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {event.registeredAthletes.map((athlete) => (
-                        <div key={athlete.id} className="flex items-start gap-3">
-                          <Avatar>
-                            <AvatarImage src={athlete.avatar} />
-                            <AvatarFallback>{athlete.name[0]}</AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1">
-                            <p className="font-medium">{athlete.name}</p>
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {athlete.events.map((evt, idx) => (
-                                <Badge key={idx} variant="outline" className="text-xs">
-                                  {evt}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
               
               <TabsContent value="rules">
                 <Card>
@@ -313,52 +259,6 @@ export default function EventDetails() {
 
           {/* Right Column - Registration & Info */}
           <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Registration</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Entry Fee</span>
-                    <span className="font-semibold">${event.entryFee}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Deadline</span>
-                    <span className="font-semibold">
-                      {format(event.registrationDeadline, "MMM d, yyyy")}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Available Spots</span>
-                    <span className="font-semibold">
-                      {event.maxParticipants - event.participants}
-                    </span>
-                  </div>
-                </div>
-                
-                <Separator />
-                
-                <Button 
-                  className="w-full" 
-                  size="lg"
-                  onClick={() => setShowRegistrationForm(true)}
-                >
-                  Register Now
-                </Button>
-                
-                <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1" size="sm">
-                    <Heart className="h-4 w-4 mr-1" />
-                    Save
-                  </Button>
-                  <Button variant="outline" className="flex-1" size="sm">
-                    <Share2 className="h-4 w-4 mr-1" />
-                    Share
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
 
             <Card>
               <CardHeader>
@@ -371,10 +271,6 @@ export default function EventDetails() {
                   <p>📞 {event.contactPhone}</p>
                   <p>🌐 {event.website}</p>
                 </div>
-                <Button variant="outline" className="w-full" size="sm">
-                  <MessageSquare className="h-4 w-4 mr-1" />
-                  Contact Organizer
-                </Button>
               </CardContent>
             </Card>
 
@@ -396,18 +292,6 @@ export default function EventDetails() {
         </div>
       </div>
 
-      {/* Registration Form Dialog */}
-      <EventRegistrationForm
-        open={showRegistrationForm}
-        onClose={() => setShowRegistrationForm(false)}
-        event={{
-          title: event.title,
-          entryFee: event.entryFee,
-          categories: event.categories,
-          date: event.date,
-          location: event.location,
-        }}
-      />
     </div>
   );
 }
