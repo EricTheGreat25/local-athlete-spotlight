@@ -217,23 +217,6 @@ export default function EventDetails() {
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Event Gallery</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-3 gap-2">
-                      {event.gallery.map((image, index) => (
-                        <img 
-                          key={index}
-                          src={image} 
-                          alt={`Event gallery ${index + 1}`}
-                          className="rounded-lg aspect-square object-cover"
-                        />
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
               </TabsContent>
               
               

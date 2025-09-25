@@ -143,16 +143,13 @@ const AthleteProfile = () => {
                     {isFollowing ? "Following" : "Follow"}
                   </Button>
                   <Button variant="outline" size="icon">
-                    <Mail className="h-4 w-4" />
-                  </Button>
-                  <Button variant="outline" size="icon">
                     <Share2 className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
               
               {/* Quick Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                 <div>
                   <p className="text-2xl font-bold">{athlete.age}</p>
                   <p className="text-sm text-muted-foreground">Age</p>
@@ -169,10 +166,6 @@ const AthleteProfile = () => {
                   <p className="text-2xl font-bold">{athlete.ranking}</p>
                   <p className="text-sm text-muted-foreground">Ranking</p>
                 </div>
-                <div>
-                  <p className="text-2xl font-bold">{athlete.followers.toLocaleString()}</p>
-                  <p className="text-sm text-muted-foreground">Followers</p>
-                </div>
               </div>
             </div>
           </div>
@@ -180,7 +173,7 @@ const AthleteProfile = () => {
 
         {/* Content Tabs */}
         <Tabs defaultValue="performance" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 max-w-2xl">
+          <TabsList className="grid w-full grid-cols-3 max-w-2xl">
             <TabsTrigger value="performance">Performance</TabsTrigger>
             <TabsTrigger value="achievements">Achievements</TabsTrigger>
             <TabsTrigger value="videos">Videos</TabsTrigger>
@@ -209,41 +202,6 @@ const AthleteProfile = () => {
               </CardContent>
             </Card>
             
-            {/* Recent Games */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Clock className="h-5 w-5" />
-                  Recent Games
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {athlete.stats.recent.map((game, index) => (
-                    <div key={index} className="flex justify-between items-center p-4 bg-muted/50 rounded-lg">
-                      <div>
-                        <p className="font-medium">{game.game}</p>
-                        <p className="text-sm text-muted-foreground">{game.date}</p>
-                      </div>
-                      <div className="flex gap-6 text-sm">
-                        <div className="text-center">
-                          <p className="font-bold text-lg">{game.points}</p>
-                          <p className="text-muted-foreground">PTS</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="font-bold text-lg">{game.rebounds}</p>
-                          <p className="text-muted-foreground">REB</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="font-bold text-lg">{game.assists}</p>
-                          <p className="text-muted-foreground">AST</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
           
           <TabsContent value="achievements" className="space-y-6">
@@ -268,25 +226,22 @@ const AthleteProfile = () => {
           </TabsContent>
           
           <TabsContent value="videos" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {athlete.videos.map((video) => (
-                <Card key={video.id} className="cursor-pointer hover:bg-muted/50 transition-colors">
-                  <CardContent className="p-4">
-                    <div className="aspect-video bg-muted rounded-md mb-3 flex items-center justify-center">
-                      <Activity className="h-8 w-8 text-muted-foreground" />
-                    </div>
-                    <h3 className="font-medium mb-1">{video.title}</h3>
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Eye className="h-3 w-3" />
-                        {video.views} views
-                      </span>
-                      <span>{video.duration}</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <Card>
+              <CardContent className="p-6">
+                <div className="aspect-video w-full max-w-4xl mx-auto">
+                  <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                    title="Athlete Highlight Video"
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowFullScreen
+                    className="rounded-lg"
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
           
           <TabsContent value="about" className="space-y-6">
@@ -314,11 +269,15 @@ const AthleteProfile = () => {
               <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Contact information is only available to verified scouts and organizations.
-                </p>
-                <Button className="mt-4">Request Contact Access</Button>
+              <CardContent className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Email</span>
+                  <span className="font-medium">michael.jordan@email.com</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Phone</span>
+                  <span className="font-medium">(555) 123-4567</span>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
