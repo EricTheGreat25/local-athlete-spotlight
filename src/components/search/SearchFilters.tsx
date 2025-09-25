@@ -84,34 +84,6 @@ const SearchFilters = ({ onFilterChange, onReset }: SearchFiltersProps) => {
           </div>
         </div>
         
-        <div className="space-y-2">
-          <Label>Location</Label>
-          <Select onValueChange={(value) => onFilterChange({ location: value })}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select location" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="any">Any Location</SelectItem>
-              <SelectItem value="local">Within 50 miles</SelectItem>
-              <SelectItem value="state">Same State</SelectItem>
-              <SelectItem value="national">Nationwide</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        
-        <div className="space-y-2">
-          <Label>Verification Status</Label>
-          <Select onValueChange={(value) => onFilterChange({ verified: value })}>
-            <SelectTrigger>
-              <SelectValue placeholder="Any status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="any">Any Status</SelectItem>
-              <SelectItem value="verified">Verified Only</SelectItem>
-              <SelectItem value="unverified">Unverified</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
         
         <Button className="w-full">
           Apply Filters

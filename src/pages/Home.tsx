@@ -34,39 +34,6 @@ const Home = () => {
       <HeroSection />
       <FeaturesSection />
       
-      {/* Testimonials Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Trusted by Athletes & Scouts
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              See what our community has to say about Athletix
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="relative">
-                <Quote className="absolute top-4 right-4 h-8 w-8 text-muted-foreground/20" />
-                <CardHeader>
-                  <div className="flex items-center gap-1 mb-2">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
-                    ))}
-                  </div>
-                  <CardTitle className="text-lg">{testimonial.name}</CardTitle>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm italic">{testimonial.content}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
       
       {/* CTA Section */}
       <section className="py-20 bg-primary text-primary-foreground">

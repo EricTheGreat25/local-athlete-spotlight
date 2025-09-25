@@ -43,30 +43,6 @@ const HeroSection = () => {
             </Link>
           </div>
           
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Users className="h-6 w-6 mr-2" />
-                <span className="text-3xl font-bold">5,000+</span>
-              </div>
-              <p className="text-muted-foreground">Athletes</p>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Trophy className="h-6 w-6 mr-2" />
-                <span className="text-3xl font-bold">200+</span>
-              </div>
-              <p className="text-muted-foreground">Scouts & Organizations</p>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <TrendingUp className="h-6 w-6 mr-2" />
-                <span className="text-3xl font-bold">1,500+</span>
-              </div>
-              <p className="text-muted-foreground">Success Stories</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>

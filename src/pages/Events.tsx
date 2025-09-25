@@ -161,7 +161,6 @@ const Events = () => {
             <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
             <TabsTrigger value="ongoing">Ongoing</TabsTrigger>
             <TabsTrigger value="completed">Past Events</TabsTrigger>
-            <TabsTrigger value="calendar">Calendar View</TabsTrigger>
           </TabsList>
           
           <TabsContent value="upcoming" className="space-y-6">
@@ -194,18 +193,6 @@ const Events = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="calendar" className="space-y-6">
-            <div className="bg-card rounded-lg border p-8">
-              <div className="flex items-center justify-center h-96">
-                <div className="text-center">
-                  <Calendar className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                  <p className="text-muted-foreground">
-                    Calendar view coming soon
-                  </p>
-                </div>
-              </div>
-            </div>
-          </TabsContent>
         </Tabs>
       </div>
     </div>
