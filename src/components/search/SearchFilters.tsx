@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -11,11 +12,18 @@ interface SearchFiltersProps {
 }
 
 const SearchFilters = ({ onFilterChange, onReset }: SearchFiltersProps) => {
+  const [ageRange, setAgeRange] = useState([16, 25]);
+  
   const sports = ["Basketball", "Football", "Soccer", "Baseball", "Track & Field", "Swimming", "Tennis"];
   const positions = {
     Basketball: ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"],
     Football: ["Quarterback", "Running Back", "Wide Receiver", "Linebacker", "Defensive Back"],
     Soccer: ["Goalkeeper", "Defender", "Midfielder", "Forward"],
+  };
+
+  const handleAgeRangeChange = (value: number[]) => {
+    setAgeRange(value);
+    onFilterChange({ ageRange: value });
   };
 
   return (
@@ -67,15 +75,15 @@ const SearchFilters = ({ onFilterChange, onReset }: SearchFiltersProps) => {
         </div>
         
         <div className="space-y-2">
-          <Label>Age Range</Label>
+          <Label>Age Range: {ageRange[0]} - {ageRange[1]} years</Label>
           <div className="px-2">
             <Slider
-              defaultValue={[16, 25]}
+              value={ageRange}
               max={35}
               min={14}
               step={1}
               className="mb-2"
-              onValueChange={(value) => onFilterChange({ ageRange: value })}
+              onValueChange={handleAgeRangeChange}
             />
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>14</span>

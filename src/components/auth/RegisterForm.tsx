@@ -11,11 +11,13 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import RegistrationStep2 from "./RegistrationStep2";
 
 type UserRole = "athlete" | "scout" | "organizer" | "fan";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,9 +35,21 @@ const RegisterForm = () => {
       return;
     }
     
-    // Simulate registration success
-    toast.success("Registration successful! Please check your email to verify your account.");
+    if (!birthDate) {
+      toast.error("Please select your date of birth");
+      return;
+    }
+    
+    // Move to step 2
+    setCurrentStep(2);
+  };
+
+  const handleCompleteRegistration = () => {
     navigate("/login");
+  };
+
+  const handleBackToStep1 = () => {
+    setCurrentStep(1);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,11 +59,20 @@ const RegisterForm = () => {
     });
   };
 
+  if (currentStep === 2) {
+    return (
+      <RegistrationStep2 
+        onComplete={handleCompleteRegistration}
+        onBack={handleBackToStep1}
+      />
+    );
+  }
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Create an Account</CardTitle>
-        <CardDescription>Join Athletix and start your journey</CardDescription>
+        <CardDescription>Step 1 of 2 - Basic Information</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -161,7 +184,7 @@ const RegisterForm = () => {
           </div>
           
           <Button type="submit" className="w-full">
-            Create Account
+            Continue to Step 2
           </Button>
         </form>
       </CardContent>
