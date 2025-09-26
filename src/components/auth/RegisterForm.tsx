@@ -184,7 +184,7 @@ const RegisterForm = () => {
           </div>
           
           <Button type="submit" className="w-full">
-            Continue to Step 2
+            Next
           </Button>
         </form>
       </CardContent>

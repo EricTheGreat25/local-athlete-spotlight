@@ -93,7 +93,7 @@ const AthleteCard = ({
           ))}
         </div>
         
-        <Link to={`/athletes/${id}`}>
+        <Link to={`/athletes/${id}`} className="mt-3 block">
           <Button variant="secondary" className="w-full">
             <Eye className="mr-2 h-4 w-4" />
             View Profile
