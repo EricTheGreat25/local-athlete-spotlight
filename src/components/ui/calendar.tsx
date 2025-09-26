@@ -1,9 +1,10 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker } from "react-day-picker";
+import { DayPicker, DropdownProps } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -54,7 +55,45 @@ function Calendar({
       components={{
         IconLeft: ({ ..._props }) => <ChevronLeft className="h-4 w-4" />,
         IconRight: ({ ..._props }) => <ChevronRight className="h-4 w-4" />,
+        Dropdown: ({ value, onChange, children }: DropdownProps) => {
+          const options = React.Children.toArray(children).filter(
+            (child): child is React.ReactElement<HTMLOptionElement> =>
+              React.isValidElement(child) && child.type === "option"
+          );
+          const selected = options.find((child) => child.props.value === value);
+          const handleChange = (newValue: string) => {
+            const changeEvent = {
+              target: { value: newValue },
+            } as React.ChangeEvent<HTMLSelectElement>;
+            onChange?.(changeEvent);
+          };
+          return (
+            <Select
+              value={value?.toString()}
+              onValueChange={handleChange}
+            >
+              <SelectTrigger className="pr-1.5 focus:ring-0">
+                <SelectValue>
+                  {String(selected?.props?.children ?? value)}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent position="popper">
+                {options.map((option, index) => (
+                  <SelectItem
+                    key={`${option.props.value}-${index}`}
+                    value={option.props.value?.toString() ?? ""}
+                  >
+                    {String(option.props.children)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          );
+        },
       }}
+      captionLayout="dropdown-buttons"
+      fromYear={1900}
+      toYear={new Date().getFullYear()}
       {...props}
     />
   );
