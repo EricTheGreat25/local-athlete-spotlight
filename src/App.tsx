@@ -15,6 +15,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
 import AthleteProfile from "./pages/AthleteProfile";
 import UserProfile from "./pages/UserProfile";
+import OrganizerProfile from "./pages/OrganizerProfile";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/athletes/:id" element={<AthleteProfile />} />
           <Route path="/users/:id" element={<UserProfile />} />
+          <Route path="/organizers/:id" element={<OrganizerProfile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
