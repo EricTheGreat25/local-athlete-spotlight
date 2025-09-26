@@ -20,19 +20,7 @@ const RegistrationStep2 = ({ onComplete, onBack }: RegistrationStep2Props) => {
   const sports = [
     "Basketball",
     "Football", 
-    "Soccer",
-    "Baseball",
-    "Track & Field",
-    "Swimming",
-    "Tennis",
-    "Golf",
     "Volleyball",
-    "Wrestling",
-    "Boxing",
-    "MMA",
-    "Hockey",
-    "Rugby",
-    "Cricket"
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -97,7 +85,7 @@ const RegistrationStep2 = ({ onComplete, onBack }: RegistrationStep2Props) => {
               Back
             </Button>
             <Button type="submit" className="flex-1">
-              Complete Registration
+              Register
             </Button>
           </div>
         </form>

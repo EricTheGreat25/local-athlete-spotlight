@@ -20,7 +20,7 @@ const HeroSection = () => {
           {/* Heading */}
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6">
             Discover Local
-            <span className="block text-gradient">Athletic Talent</span>
+            <span className="block text-black">Athletic Talent</span>
           </h1>
           
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
