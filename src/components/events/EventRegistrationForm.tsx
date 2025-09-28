@@ -39,7 +39,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utilities/utils";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters"),

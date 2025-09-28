@@ -7,33 +7,12 @@ import { ArrowRight, Star, Quote } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "Basketball Player",
-      content: "Athletix helped me get discovered by college scouts. The platform made it easy to showcase my skills and connect with opportunities.",
-      rating: 5,
-    },
-    {
-      name: "Coach Mike Davis",
-      role: "Scout - Division I",
-      content: "The search and filter capabilities are incredible. I can find exactly the type of athlete I'm looking for in minutes.",
-      rating: 5,
-    },
-    {
-      name: "Tom Rodriguez",
-      role: "Event Organizer",
-      content: "Managing tryouts and showcases has never been easier. The platform streamlines everything from registration to performance tracking.",
-      rating: 5,
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <HeroSection />
       <FeaturesSection />
-      
       
       {/* CTA Section */}
       <section className="py-20 bg-primary text-primary-foreground">
@@ -91,7 +70,7 @@ const Home = () => {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-            © 2024 Athletix. All rights reserved.
+            © 2025 Athletix. All rights reserved.
           </div>
         </div>
       </footer>
