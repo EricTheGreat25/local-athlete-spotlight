@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
+import { supabase } from "@/utilities/supabase"; // 1. Import supabase
+import { Loader2 } from "lucide-react"; // For loading spinner
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -14,13 +16,26 @@ const LoginForm = () => {
     password: "",
     rememberMe: false,
   });
+  const [loading, setLoading] = useState(false); // 2. Add loading state
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // 3. Update the handleSubmit function
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Simulate login success
-    toast.success("Login successful!");
-    navigate("/dashboard");
+    setLoading(true);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Login successful!");
+      navigate("/"); // Redirect on successful login
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,9 +63,9 @@ const LoginForm = () => {
               value={formData.email}
               onChange={handleChange}
               required
+              disabled={loading}
             />
           </div>
-          
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <Input
@@ -61,40 +76,32 @@ const LoginForm = () => {
               value={formData.password}
               onChange={handleChange}
               required
+              disabled={loading}
             />
           </div>
-          
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Checkbox 
+              <Checkbox
                 id="rememberMe"
+                name="rememberMe"
                 checked={formData.rememberMe}
-                onCheckedChange={(checked) => 
-                  setFormData({ ...formData, rememberMe: checked as boolean })
-                }
+                onCheckedChange={(checked) => setFormData({ ...formData, rememberMe: !!checked })}
+                disabled={loading}
               />
-              <Label htmlFor="rememberMe" className="text-sm font-normal">
+              <Label htmlFor="rememberMe" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 Remember me
               </Label>
             </div>
-            <Link to="/forgot-password" className="text-sm hover:underline">
+            <Link to="/forgot-password" className="text-sm text-primary hover:underline">
               Forgot password?
             </Link>
           </div>
-          
-          <Button type="submit" className="w-full">
-            Sign In
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Log In
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="text-center">
-        <p className="text-sm text-muted-foreground">
-          Don't have an account?{" "}
-          <Link to="/register" className="font-medium hover:underline">
-            Sign up
-          </Link>
-        </p>
-      </CardFooter>
     </Card>
   );
 };
