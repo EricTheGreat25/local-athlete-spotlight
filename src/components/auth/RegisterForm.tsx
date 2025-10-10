@@ -14,9 +14,30 @@ import { cn } from "@/utilities/utils";
 import RegistrationStep2 from "./RegistrationStep2";
 import { validatePassword } from "@/utilities/utils";
 import { supabase } from "@/utilities/supabase"; 
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-type UserRole = "athlete" | "scout" | "organizer" | "fan";
+type UserRole = "athlete" | "scout" | "organizer";
 type Gender = "male" | "female" | "other";
+
+const regions = [
+  "NCR",
+  "Region I",
+  "Region II",
+  "Region III",
+  "Region IV-A",
+  "Region IV-B",
+  "Region V",
+  "Region VI",
+  "Region VII",
+  "Region VIII",
+  "Region IX",
+  "Region X",
+  "Region XI",
+  "Region XII",
+  "Region XIII",
+  "BARMM",
+  "CAR",
+];
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -28,6 +49,7 @@ const RegisterForm = () => {
     confirmPassword: "",
     role: "athlete" as UserRole,
     gender: "male" as Gender,
+    region: "",
   });
   const [birthDate, setBirthDate] = useState<Date>();
   const [passwordCriteria, setPasswordCriteria] = useState({
@@ -38,7 +60,7 @@ const RegisterForm = () => {
     hasSpecialChar: false,
   });
 
-  // This function is for the "Next" button in Step 1
+  //next button handler for step 1
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -58,13 +80,11 @@ const RegisterForm = () => {
       return;
     }
     
-    // Validation passed, move to step 2
+    //pass data from step 1 to step 2
     setCurrentStep(2);
   };
 
-  // This function is triggered by the "Register" button in Step 2
   const handleCompleteRegistration = async (step2Data: { sport: string; bio: string }) => {
-    // 1. Create the user in Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
@@ -79,16 +99,17 @@ const RegisterForm = () => {
       return;
     }
 
-    // 2. Insert the combined data into your 'users' table
+     // Insert the combined data into your 'users' table
     const { error: userError } = await supabase.from("users").insert({
-      user_id: authData.user.id, // The ID from the newly created auth user
-      fullname: formData.name, // Data from Step 1
-      role: formData.role, // Data from Step 1
-      gender: formData.gender, // Data from Step 1
-      birthdate: birthDate ? format(birthDate, "yyyy-MM-dd") : null, // Data from Step 1
-      sport_id: parseInt(step2Data.sport, 10), // Data from Step 2
-      bio: step2Data.bio, // Data from Step 2
+      user_id: authData.user.id, 
+      fullname: formData.name, 
+      role: formData.role, 
+      gender: formData.gender, 
+      birthdate: birthDate ? format(birthDate, "yyyy-MM-dd") : null, 
+      sport_id: parseInt(step2Data.sport, 10), 
+      bio: step2Data.bio, 
       registration_date: new Date().toISOString(),
+      location: formData.region, 
     });
 
     if (userError) {
@@ -106,12 +127,15 @@ const RegisterForm = () => {
     setCurrentStep(1);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
+
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
@@ -133,7 +157,6 @@ const RegisterForm = () => {
     );
   }
 
-  // The JSX for Step 1
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
@@ -152,24 +175,7 @@ const RegisterForm = () => {
             <Label htmlFor="email">Email</Label>
             <Input id="email" name="email" type="email" placeholder="john@example.com" value={formData.email} onChange={handleChange} required />
           </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" name="password" type="password" placeholder="••••••••" value={formData.password} onChange={handlePasswordChange} required />
-            <div className="space-y-1 text-xs text-muted-foreground">
-              <p className={passwordCriteria.minLength ? "text-green-600" : ""}>✓ At least 8 characters</p>
-              <p className={passwordCriteria.hasUppercase ? "text-green-600" : ""}>✓ At least one uppercase letter</p>
-              <p className={passwordCriteria.hasLowercase ? "text-green-600" : ""}>✓ At least one lowercase letter</p>
-              <p className={passwordCriteria.hasNumber ? "text-green-600" : ""}>✓ At least one number</p>
-              <p className={passwordCriteria.hasSpecialChar ? "text-green-600" : ""}>✓ At least one special character</p>
-            </div>
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input id="confirmPassword" name="confirmPassword" type="password" placeholder="••••••••" value={formData.confirmPassword} onChange={handleChange} required />
-          </div>
-          
+
           <div className="space-y-2">
             <Label>Date of Birth</Label>
             <Popover>
@@ -185,6 +191,58 @@ const RegisterForm = () => {
             </Popover>
           </div>
 
+          <div className="space-y-2">
+            <Label htmlFor="region">Region</Label>
+              <select
+                id="region"
+                name="region"
+                value={formData.region}
+                onChange={handleChange}
+                required
+              className="w-full border rounded-md p-2 text-sm"
+            >
+              <option value="">Select your region</option>
+                {regions.map((region, index) => (
+                  <option key={index} value={region}>
+                   {region}
+                  </option>
+               ))}
+                </select>
+            </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" name="password" type="password" placeholder="••••••••" value={formData.password} onChange={handlePasswordChange} required />
+            <div className="text-sm mt-1">
+            <p
+              className={cn(
+                "font-medium",
+                passwordCriteria.minLength &&
+                passwordCriteria.hasUppercase &&
+                passwordCriteria.hasLowercase &&
+                passwordCriteria.hasNumber &&
+                passwordCriteria.hasSpecialChar
+                  ? "text-green-600"
+                  : "text-red-600"
+              )}
+            >
+              {passwordCriteria.minLength &&
+              passwordCriteria.hasUppercase &&
+              passwordCriteria.hasLowercase &&
+              passwordCriteria.hasNumber &&
+              passwordCriteria.hasSpecialChar
+                ? "Strong password"
+                : "Password must include at least 8 characters, an uppercase letter, a lowercase letter, a number, and a special character"}
+            </p>
+          </div>
+
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Input id="confirmPassword" name="confirmPassword" type="password" placeholder="••••••••" value={formData.confirmPassword} onChange={handleChange} required />
+          </div>
+          
           <div className="space-y-2">
             <Label>Gender</Label>
             <RadioGroup value={formData.gender} onValueChange={(value) => setFormData({ ...formData, gender: value as Gender })}>
@@ -217,10 +275,6 @@ const RegisterForm = () => {
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="organizer" id="organizer" />
                 <Label htmlFor="organizer">Event Organizer</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="fan" id="fan" />
-                <Label htmlFor="fan">Fan/Supporter</Label>
               </div>
             </RadioGroup>
           </div>
