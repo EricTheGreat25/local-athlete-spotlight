@@ -18,15 +18,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/utilities/utils";
-import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton for a better loading experience
-import { useAuth } from "@/hooks/useAuth";
+import { Skeleton } from "@/components/ui/skeleton"; 
 import { supabase } from "@/utilities/supabase";
+import { useAuth } from "@/hooks/AuthProvider";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { session, user, loading } = useAuth(); // Destructure the loading state
+  const { session, user, loading } = useAuth(); 
 
   const navLinks = [
     { href: "/", label: "Home", icon: Trophy },
@@ -39,9 +39,9 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/"); // Redirect to home after logout
-  };
+  await supabase.auth.signOut();
+  navigate("/");
+};
 
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">

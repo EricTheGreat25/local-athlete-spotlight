@@ -8,11 +8,23 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    
+    proxy: {
+      "/register": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        secure: false, 
+      },
+      "/login": {
+      target: "http://localhost:5000",
+      changeOrigin: true,
+      secure: false,
+    },
+    },
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === "development" && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {

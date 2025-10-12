@@ -13,7 +13,6 @@ import { toast } from "sonner";
 import { cn } from "@/utilities/utils";
 import RegistrationStep2 from "./RegistrationStep2";
 import { validatePassword } from "@/utilities/utils";
-import { supabase } from "@/utilities/supabase"; 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type UserRole = "athlete" | "scout" | "organizer";
@@ -85,43 +84,38 @@ const RegisterForm = () => {
   };
 
   const handleCompleteRegistration = async (step2Data: { sport: string; bio: string }) => {
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
+  try {
+    const response = await fetch("/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+        gender: formData.gender,
+        birthDate: birthDate ? format(birthDate, "yyyy-MM-dd") : null,
+        region: formData.region,
+        sport: step2Data.sport,
+        bio: step2Data.bio,
+      }),
     });
 
-    if (authError) {
-      toast.error(authError.message);
-      return;
-    }
-    if (!authData.user) {
-      toast.error("Authentication failed. Please try again.");
-      return;
-    }
+    const result = await response.json();
 
-     // Insert the combined data into your 'users' table
-    const { error: userError } = await supabase.from("users").insert({
-      user_id: authData.user.id, 
-      fullname: formData.name, 
-      role: formData.role, 
-      gender: formData.gender, 
-      birthdate: birthDate ? format(birthDate, "yyyy-MM-dd") : null, 
-      sport_id: parseInt(step2Data.sport, 10), 
-      bio: step2Data.bio, 
-      registration_date: new Date().toISOString(),
-      location: formData.region, 
-    });
-
-    if (userError) {
-      toast.error(`Error saving your profile: ${userError.message}`);
-      console.log(userError);
-      await supabase.auth.admin.deleteUser(authData.user.id);
+    if (!response.ok) {
+      toast.error(result.message || "Registration failed");
       return;
     }
 
     toast.success("Registration successful! Please check your email to verify your account.");
     navigate("/login");
-  };
+  } catch (error) {
+    console.error(error);
+    toast.error("An unexpected error occurred during registration.");
+  }
+};
+
 
   const handleBackToStep1 = () => {
     setCurrentStep(1);
