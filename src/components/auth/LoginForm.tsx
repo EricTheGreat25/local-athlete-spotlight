@@ -37,8 +37,11 @@ const LoginForm = () => {
         return;
       }
 
-      // store session in frontend Supabase client
-      await supabase.auth.setSession(result.session?.access_token);
+      //session storing
+      await supabase.auth.setSession({
+      access_token: result.session?.access_token,
+      refresh_token: result.session?.refresh_token,
+      });
 
       toast.success(result.message || "Login successful!");
       navigate("/");
