@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/utilities/utils";
-import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton for a better loading experience
+import { Skeleton } from "@/components/ui/skeleton"; 
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/utilities/supabase";
 
@@ -39,9 +39,18 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/"); // Redirect to home after logout
-  };
+  const session = supabase.auth.session(); // get current session
+  await fetch("http://localhost:5000/logout", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ access_token: session?.access_token }),
+  });
+
+  // Clear local session
+  await supabase.auth.signOut();
+  navigate("/"); // redirect
+};
+
 
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
